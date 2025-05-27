@@ -9,7 +9,6 @@ interface QuizState {
   startQuiz: () => void;
   endQuiz: () => void;
   setAnswer: (questionId: number, answer: string) => void;
-  resetQuiz: () => void;
 }
 
 export const useQuizStore = create<QuizState>((set) => ({
@@ -29,17 +28,10 @@ export const useQuizStore = create<QuizState>((set) => ({
     set({
       endTime: Date.now(),
       isQuizActive: false,
+      answers: {},
     }),
   setAnswer: (questionId, answer) =>
     set((state) => ({
       answers: { ...state.answers, [questionId]: answer },
-    })),
-  resetQuiz: () =>
-    set({
-      startTime: null,
-      endTime: null,
-      currentQuestion: 0,
-      answers: {},
-      isQuizActive: false,
-    }),
+    }))
 })); 
