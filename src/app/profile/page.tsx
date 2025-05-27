@@ -25,7 +25,7 @@ export default function ProfilePage() {
 
   // 平均答對題數訊息規則
   const correctCountMessages = [
-    { min: 0, max: 0, text: "沒被打過？" },
+    { min: 0, max: 1, text: "沒被打過？" },
     { min: 1, max: 3, text: "我們走著瞧" },
     { min: 4, max: 7, text: "哎呦不錯喔" },
     { min: 8, max: 10, text: "你就是標準" },
