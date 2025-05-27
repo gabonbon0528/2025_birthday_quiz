@@ -57,7 +57,7 @@ export default function LoginPage() {
   return (
     <div className="relative min-h-screen bg-background py-8 px-4 overflow-hidden bg-[url('/IMG_2486.JPG')] bg-contain bg-no-repeat bg-bottom">
       <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full text-center">
-        <h1 className="text-3xl font-bold mb-8">登入後即可參加測驗</h1>
+        <h1 className="text-3xl font-bold mb-8">登入以紀錄成績</h1>
         <button
           onClick={handleGoogleSignIn}
           className="flex items-center justify-center w-full bg-white border border-gray-300 rounded-lg px-6 py-3 text-secondary hover:bg-gray-50 transition-colors"
