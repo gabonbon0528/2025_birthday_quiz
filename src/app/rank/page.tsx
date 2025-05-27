@@ -14,7 +14,7 @@ interface RankData {
 }
 
 export default function RankPage() {
-  const [rankData, setRankData] = useState<RankData[]>([]);
+  const [rankData, setRankData] = useState<RankData[] | null>(null);
 
   useEffect(() => {
     const fetchRankData = async () => {
@@ -88,7 +88,7 @@ export default function RankPage() {
                 </td>
               </tr>
             ))}
-            {rankData.length === 0 && (
+            {!rankData && (
               <tr>
                 <td colSpan={4} className="px-4 py-2 text-center">
                   排行榜尚未有資料

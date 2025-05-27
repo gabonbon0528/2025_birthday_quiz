@@ -9,7 +9,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { questions } from "@/data/questions";
 import { db } from "@/lib/firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 import { shuffle } from "lodash";
 
 const formSchema = z.object({
@@ -18,7 +18,8 @@ const formSchema = z.object({
 
 export default function QuizPage() {
   const router = useRouter();
-  const { startTime, startQuiz, endQuiz, setAnswer, answers } = useQuizStore();
+  const { startTime, startQuiz, endQuiz, setAnswer, answers, setStartTime } =
+    useQuizStore();
   const user = useAuthStore((state) => state.user);
   const authLoaded = useAuthStore((state) => state.authLoaded);
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -57,17 +58,22 @@ export default function QuizPage() {
 
     return () => {
       clearInterval(timer);
-      endQuiz();
       if (typeof window !== "undefined") {
         window.localStorage.removeItem("quizState");
       }
     };
-  }, [startTime, startQuiz, user, router, endQuiz, authLoaded]);
+  }, [startTime, startQuiz, user, router, authLoaded]);
 
   useEffect(() => {
     const shuffled = shuffle(questions);
     setSelectedQuestions(shuffled.slice(0, 10));
   }, []);
+
+  useEffect(() => {
+    return () => {
+      setStartTime(0);
+    };
+  }, [setStartTime]);
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
@@ -89,17 +95,35 @@ export default function QuizPage() {
         0
       );
 
+      let canSave = true;
       try {
-        await addDoc(collection(db, "quizSessions"), {
-          userId: user?.uid,
-          userName: user?.displayName,
-          correctCount,
-          totalTime: elapsedTime,
-          attemptCount: 1,
-          createdAt: new Date(),
-        });
+        // 查詢該 user 的 quizSessions 總數
+        const q = query(
+          collection(db, "quizSessions"),
+          where("userId", "==", user?.uid)
+        );
+        const snap = await getDocs(q);
+        if (snap.size >= 3) {
+          canSave = false;
+          alert("你已經有三次紀錄，這次不會再存入排行榜，但可以繼續挑戰！");
+        }
       } catch (error) {
-        console.error("Error saving quiz result:", error);
+        console.error("Error checking quiz record count:", error);
+      }
+
+      if (canSave) {
+        try {
+          await addDoc(collection(db, "quizSessions"), {
+            userId: user?.uid,
+            userName: user?.displayName,
+            correctCount,
+            totalTime: elapsedTime,
+            attemptCount: 1,
+            createdAt: new Date(),
+          });
+        } catch (error) {
+          console.error("Error saving quiz result:", error);
+        }
       }
 
       setAnswer(currentQuestion.id, data.answer);

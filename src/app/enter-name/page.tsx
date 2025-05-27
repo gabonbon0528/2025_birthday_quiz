@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 export default function EnterNamePage() {
   const router = useRouter();
@@ -23,7 +24,12 @@ export default function EnterNamePage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (name.trim() && user) {
-      setUser(Object.assign(Object.create(Object.getPrototypeOf(user)), { ...user, displayName: name }));
+      setUser(
+        Object.assign(Object.create(Object.getPrototypeOf(user)), {
+          ...user,
+          displayName: name,
+        })
+      );
       router.push("/quiz");
     }
   };
@@ -34,7 +40,22 @@ export default function EnterNamePage() {
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-lg shadow-md max-w-md w-full text-center"
       >
-        <h1 className="text-2xl font-bold mb-6">請輸入您的姓名</h1>
+        <h1 className="text-2xl font-bold mb-2 flex items-center justify-center">
+          <Image
+            src="/去背的鎧甲先生.png"
+            alt="登入後可查看作答次數"
+            width={50}
+            height={50}
+          />
+          輸入姓名
+          <Image
+            src="/去背的鎧甲先生.png"
+            alt="登入後可查看作答次數"
+            width={50}
+            height={50}
+          />
+        </h1>
+        <p className="text-sm mb-6">作答超過三次後就不會紀錄，但可以繼續挑戰</p>
         <input
           type="text"
           value={name}
@@ -52,4 +73,4 @@ export default function EnterNamePage() {
       </form>
     </div>
   );
-} 
+}

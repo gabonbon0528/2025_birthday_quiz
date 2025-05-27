@@ -9,6 +9,7 @@ interface QuizState {
   startQuiz: () => void;
   endQuiz: () => void;
   setAnswer: (questionId: number, answer: string) => void;
+  setStartTime: (startTime: number) => void;
 }
 
 export const useQuizStore = create<QuizState>((set) => ({
@@ -33,5 +34,6 @@ export const useQuizStore = create<QuizState>((set) => ({
   setAnswer: (questionId, answer) =>
     set((state) => ({
       answers: { ...state.answers, [questionId]: answer },
-    }))
-})); 
+    })),
+  setStartTime: (startTime) => set({ startTime }),
+}));
