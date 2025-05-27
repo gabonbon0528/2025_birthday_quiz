@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { questions } from "@/data/questions";
 import { db } from "@/lib/firebase";
 import { collection, addDoc } from "firebase/firestore";
+import { shuffle } from "lodash";
 
 const formSchema = z.object({
   answer: z.string().min(1, "請選擇一個答案"),
@@ -21,6 +22,9 @@ export default function QuizPage() {
   const user = useAuthStore((state) => state.user);
   const authLoaded = useAuthStore((state) => state.authLoaded);
   const [elapsedTime, setElapsedTime] = useState(0);
+  const [selectedQuestions, setSelectedQuestions] = useState<typeof questions>(
+    []
+  );
 
   const {
     register,
@@ -58,7 +62,12 @@ export default function QuizPage() {
         window.localStorage.removeItem("quizState");
       }
     };
-  }, [startTime, startQuiz, user, router, endQuiz]);
+  }, [startTime, startQuiz, user, router, endQuiz, authLoaded]);
+
+  useEffect(() => {
+    const shuffled = shuffle(questions);
+    setSelectedQuestions(shuffled.slice(0, 10));
+  }, []);
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
@@ -67,13 +76,14 @@ export default function QuizPage() {
   };
 
   const onSubmit = async (data: { answer: string }) => {
-    const currentQuestion = questions[Object.keys(answers).length];
-    setAnswer(currentQuestion.id, data.answer);
+    const currentQuestion = selectedQuestions[Object.keys(answers).length];
+    const isLast = Object.keys(answers).length === selectedQuestions.length - 1;
 
-    if (Object.keys(answers).length === questions.length - 1) {
-      const correctCount = Object.entries(answers).reduce(
+    if (isLast) {
+      const allAnswers = { ...answers, [currentQuestion.id]: data.answer };
+      const correctCount = Object.entries(allAnswers).reduce(
         (count, [id, answer]) => {
-          const question = questions.find((q) => q.id === parseInt(id));
+          const question = selectedQuestions.find((q) => q.id === parseInt(id));
           return count + (question?.correctAnswer === answer ? 1 : 0);
         },
         0
@@ -92,13 +102,26 @@ export default function QuizPage() {
         console.error("Error saving quiz result:", error);
       }
 
+      setAnswer(currentQuestion.id, data.answer);
       endQuiz();
       router.push("/rank");
+    } else {
+      setAnswer(currentQuestion.id, data.answer);
     }
   };
 
   const currentQuestionIndex = Object.keys(answers).length;
-  const currentQuestion = questions[currentQuestionIndex];
+  const currentQuestion = selectedQuestions[currentQuestionIndex];
+
+  if (currentQuestionIndex === selectedQuestions.length) {
+    return (
+      <div className="relative min-h-screen bg-background py-8 px-4 overflow-hidden bg-[url('/IMG_2486.JPG')] bg-contain bg-no-repeat bg-bottom ">
+        <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
+          <h1 className="text-2xl font-bold mb-2">完成</h1>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative min-h-screen bg-background py-8 px-4 overflow-hidden bg-[url('/IMG_2486.JPG')] bg-contain bg-no-repeat bg-bottom ">
@@ -108,7 +131,7 @@ export default function QuizPage() {
             時間：{formatTime(elapsedTime)}
           </div>
           <div className="text-gray-600">
-            題目 {currentQuestionIndex + 1} / {questions.length}
+            題目 {currentQuestionIndex + 1} / {selectedQuestions.length}
           </div>
         </div>
 
