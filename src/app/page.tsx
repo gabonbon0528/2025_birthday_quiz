@@ -5,15 +5,15 @@ import ClientQuizCount from "@/components/ClientQuizCount";
 export default function Home() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+      <main className="flex flex-col gap-4 row-start-2 items-center sm:items-start">
         <h1 className="text-4xl font-bold">Gabonbon 的</h1>
         <h2 className="text-3xl font-bold">28歲生日祭</h2>
         <Image
-          className="dark:invert"
-          src="/IMG_2486.JPG"
-          alt="Next.js logo"
-          width={180}
-          height={38}
+          className="dark:invert animate-pulse"
+          src="/去背的IMG_2486.png"
+          alt="Gabonbon"
+          width={150}
+          height={100}
           priority
         />
         <ClientQuizCount />
@@ -38,9 +38,6 @@ export default function Home() {
           </Link>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        {/* ...原本 footer ... */}
-      </footer>
     </div>
   );
 }
