@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Firework from "@/components/Firework";
+import Image from "next/image";
 
 interface RankData {
   id: string;
@@ -35,7 +36,7 @@ export default function RankPage() {
     return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
 
-  if (!rankData || rankData.length === 0) {
+  if (!rankData) {
     return (
       <div className="min-h-screen bg-background flex justify-center items-center overflow-hidden bg-[url('/IMG_2486.JPG')] bg-contain bg-no-repeat bg-bottom">
         <div className="flex justify-center items-center h-full">
@@ -47,7 +48,18 @@ export default function RankPage() {
 
   return (
     <div className="min-h-screen bg-background py-8 px-4 bg-[url('/IMG_2486.JPG')] bg-contain bg-no-repeat bg-bottom">
-      <div className="relative max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6 z-10">
+      <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6 z-10">
+        <div className="flex justify-center items-center">
+          <div className="w-full h-full pb-4">
+          <Image
+            src="/Chiikawa 兔兔戰鬥實力.webp"
+            alt="background"
+            width={100}
+            height={100}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
         <h1 className="text-2xl font-bold mb-6 text-center">排行榜</h1>
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -75,6 +87,13 @@ export default function RankPage() {
                   </td>
                 </tr>
               ))}
+              {rankData.length === 0 && (
+                <tr>
+                  <td colSpan={4} className="px-4 py-2 text-center">
+                    排行榜尚未有資料
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
