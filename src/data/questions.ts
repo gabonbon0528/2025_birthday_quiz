@@ -49,7 +49,6 @@ export const questions: Question[] = [
       "約翰紅茶-雨果那提",
       "Mateas-Mateas茶王鮮奶茶",
       "壽奶茶-半熟烤糖鮮奶茶",
-      "上宇林-熊貓鮮奶茶",
       "大茗-烤糖蕎麥凍奶青",
     ],
     correctAnswer: "壽奶茶-半熟烤糖鮮奶茶",
