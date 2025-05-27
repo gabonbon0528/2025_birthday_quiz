@@ -107,6 +107,13 @@ export default function QuizPage() {
           canSave = false;
           alert("你已經有三次紀錄，這次不會再存入排行榜，但可以繼續挑戰！");
         }
+        // 檢查是否超過 2025/5/28
+        const now = new Date();
+        const deadline = new Date("2025-05-28T00:00:00+08:00");
+        if (now >= deadline) {
+          canSave = false;
+          alert("已超過活動截止日，這次不會再存入排行榜，但可以繼續挑戰！");
+        }
       } catch (error) {
         console.error("Error checking quiz record count:", error);
       }
