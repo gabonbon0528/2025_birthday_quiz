@@ -1,16 +1,17 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useAuthStore } from "@/store/authStore";
 import { auth } from "@/lib/firebase";
+import { useAuthStore } from "@/store/authStore";
 import { signOut } from "firebase/auth";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function FloatingNavBar() {
   const pathname = usePathname();
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
+  const router = useRouter();
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -20,9 +21,9 @@ export default function FloatingNavBar() {
   const handleQuizClick = (e: React.MouseEvent) => {
     e.preventDefault();
     if (!user) {
-      window.location.href = "/login";
+      router.push("/login");
     } else {
-      window.location.href = "/enter-name";
+      router.push("/enter-name");
     }
   };
 
@@ -44,8 +45,8 @@ export default function FloatingNavBar() {
           />
           <span className="text-xs">首頁</span>
         </Link>
-        <a
-          href="/quiz"
+        <Link
+          href="/enter-name"
           aria-label="開始測驗"
           onClick={handleQuizClick}
           className={`flex flex-col items-center gap-1 text-gray-600 hover:text-primary transition-colors ${
@@ -57,9 +58,9 @@ export default function FloatingNavBar() {
             alt="Loading"
             width={22}
             height={22}
-          />{" "}
+          />
           <span className="text-xs">測驗</span>
-        </a>
+        </Link>
         <Link
           href="/rank"
           aria-label="排行榜"
@@ -72,8 +73,23 @@ export default function FloatingNavBar() {
             alt="Loading"
             width={22}
             height={22}
-          />{" "}
+          />
           <span className="text-xs">排行</span>
+        </Link>
+        <Link
+          href="/profile"
+          aria-label="個人成績"
+          className={`flex flex-col items-center gap-1 text-gray-600 hover:text-primary transition-colors ${
+            pathname === "/profile" ? "text-primary" : ""
+          }`}
+        >
+          <Image
+            src="/去背的Chiikawa 角色介紹.png"
+            alt="Loading"
+            width={22}
+            height={22}
+          />
+          <span className="text-xs">成績</span>
         </Link>
         {user ? (
           <button
@@ -86,7 +102,7 @@ export default function FloatingNavBar() {
               alt="Loading"
               width={22}
               height={22}
-            />{" "}
+            />
             <span className="text-xs">登出</span>
           </button>
         ) : (
