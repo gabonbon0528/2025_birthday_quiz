@@ -24,7 +24,7 @@ export default function ClientQuizCount() {
     fetchCount();
   }, [user, authLoaded]);
 
-  if (!count)
+  if (!authLoaded)
     return (
       <div className="text-lg text-primary font-semibold text-center flex items-center">
         <Image

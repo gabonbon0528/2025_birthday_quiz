@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Firework from "@/components/Firework";
 import Image from "next/image";
+import { useAuthStore } from "@/store/authStore";
 
 interface RankData {
   id: string;
@@ -15,6 +16,7 @@ interface RankData {
 
 export default function RankPage() {
   const [rankData, setRankData] = useState<RankData[] | null>(null);
+  const user = useAuthStore((state) => state.user);
 
   useEffect(() => {
     const fetchRankData = async () => {
@@ -81,7 +83,19 @@ export default function RankPage() {
                   {index < 3 && <Firework />}
                   {index + 1}
                 </td>
-                <td className="px-4 py-2">{rank.name}</td>
+                <td
+                  className={`px-4 py-2 ${
+                    index === 0
+                      ? "text-yellow-500"
+                      : index === 1
+                      ? "text-gray-500"
+                      : index === 2
+                      ? "text-amber-500"
+                      : ""
+                  } ${user?.uid === rank.id ? "animate-pulse" : ""}`}
+                >
+                  {rank.name}
+                </td>
                 <td className="px-4 py-2 text-center">{rank.correctCount}</td>
                 <td className="px-4 py-2 text-center">
                   {formatTime(rank.totalTime)}
