@@ -41,7 +41,7 @@ export default function Home() {
             href="/enter-name"
             className="w-full bg-primary text-white text-lg font-bold py-4 rounded-lg shadow hover:opacity-90 text-center transition"
           >
-            挑戰素霞
+            挑戰邪惡素霞豆知識
           </Link>
           <Link
             href="/rank"

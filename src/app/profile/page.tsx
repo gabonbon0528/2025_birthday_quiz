@@ -25,9 +25,9 @@ export default function ProfilePage() {
 
   // 平均答對題數訊息規則
   const correctCountMessages = [
-    { min: 1, max: 3, text: "再接再厲" },
-    { min: 4, max: 7, text: "不錯喔" },
-    { min: 8, max: 10, text: "太強了吧" },
+    { min: 1, max: 3, text: "我們走著瞧" },
+    { min: 4, max: 7, text: "哎呦不錯喔" },
+    { min: 8, max: 10, text: "你就是標準" },
   ];
   const correctCountMessage = correctCountMessages.find(
     (rule) => averageCorrectCount >= rule.min && averageCorrectCount <= rule.max

@@ -74,8 +74,8 @@ export const questions: Question[] = [
   {
     id: 10,
     question: "轉職班上的是",
-    options: ["TibaMe", "資策會", "聯強", "AppWorks"],
-    correctAnswer: "TibaMe",
+    options: ["緯育", "資策會", "聯強", "AppWorks"],
+    correctAnswer: "緯育",
   },
   {
     id: 11,
@@ -121,7 +121,7 @@ export const questions: Question[] = [
   },
   {
     id: 18,
-    question: "生日當天內褲穿什麼顏色",
+    question: "2025/5/28的天的內褲穿什麼顏色",
     options: ["黑色", "紫色", "綠色", "藍色"],
     correctAnswer: "綠色",
   },
