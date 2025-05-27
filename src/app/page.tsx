@@ -7,7 +7,7 @@ import Confetti from "@/components/Confetti";
 export default function Home() {
   return (
     <div className="relative grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] overflow-hidden">
-      <div className="absolute inset-0 -z-10 animate-gradient bg-gradient-to-br from-pink-200 via-blue-100 to-yellow-100 opacity-80" />
+      <div className="absolute inset-0 -z-10" />
       <main className="flex flex-col gap-4 row-start-2 items-center sm:items-start w-full relative">
         <Confetti />
         {[...Array(5)].map((_, i) => (
