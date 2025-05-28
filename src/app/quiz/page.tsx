@@ -109,7 +109,7 @@ export default function QuizPage() {
         }
         // 檢查是否超過 2025/5/28
         const now = new Date();
-        const deadline = new Date("2025-05-28T00:00:00+08:00");
+        const deadline = new Date("2025-05-28T23:59:59+08:00");
         if (now >= deadline) {
           canSave = false;
           alert("已超過活動截止日，這次不會再存入排行榜，但可以繼續挑戰！");
