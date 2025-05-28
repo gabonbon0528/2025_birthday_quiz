@@ -121,7 +121,7 @@ export const questions: Question[] = [
   },
   {
     id: 18,
-    question: "2025/5/28的天的內褲穿什麼顏色",
+    question: "2025/5/28當天內褲穿什麼顏色",
     options: ["黑色", "紫色", "綠色", "藍色"],
     correctAnswer: "綠色",
   },
