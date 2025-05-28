@@ -26,6 +26,7 @@ export default function QuizPage() {
   const [selectedQuestions, setSelectedQuestions] = useState<typeof questions>(
     []
   );
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     register,
@@ -82,6 +83,8 @@ export default function QuizPage() {
   };
 
   const onSubmit = async (data: { answer: string }) => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     const currentQuestion = selectedQuestions[Object.keys(answers).length];
     const isLast = Object.keys(answers).length === selectedQuestions.length - 1;
 
@@ -136,8 +139,10 @@ export default function QuizPage() {
       setAnswer(currentQuestion.id, data.answer);
       endQuiz();
       router.push("/rank");
+      setIsSubmitting(false);
     } else {
       setAnswer(currentQuestion.id, data.answer);
+      setIsSubmitting(false);
     }
   };
 
@@ -197,6 +202,7 @@ export default function QuizPage() {
           <button
             type="submit"
             className="w-full bg-primary text-white py-3 rounded-lg"
+            disabled={isSubmitting}
           >
             下一題
           </button>
