@@ -119,7 +119,7 @@ export default function ProfilePage() {
         <h2 className="text-lg font-bold mb-2 text-center">
           平均答對題數{" "}
           <span className="text-center text-lg font-bold">
-            {averageCorrectCount}
+            {isNaN(averageCorrectCount) ? "--" : averageCorrectCount}
           </span>
         </h2>
         {correctCountMessage && (
